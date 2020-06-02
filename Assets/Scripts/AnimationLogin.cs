@@ -11,7 +11,12 @@ public class AnimationLogin : MonoBehaviour
     public GameObject canvas2;
     public GameObject cameraAnimated;
     public GameObject cameraMain;
-    public GameObject[] texts; 
+    public GameObject[] texts;
+
+    private void Awake()
+    {
+        ElGetter.Init(this);
+    }
     // Start is called before the first frame update
     void Start()
     {
