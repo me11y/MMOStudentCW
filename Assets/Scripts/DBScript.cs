@@ -60,6 +60,7 @@ public class DBScript : MonoBehaviour
                     if (login.Equals(dblogin) && password.Equals(dbpassword))
                     {
                         loggedin = true;
+                        UserGroup.list.Add(new UserData(dblogin, dictUser["fullname"] + "", dictUser["title"] + "", dictUser["group"] + "", System.Int32.Parse(dictUser["avatarID"] + "")));
                         break;
                     }
                  
@@ -70,6 +71,90 @@ public class DBScript : MonoBehaviour
         yield return true;
     }
 
+    public IEnumerator GetGroupList()
+    {
+        reference.Child("users").GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.Log("error");
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                foreach (DataSnapshot user in snapshot.Children)
+                {
+                    IDictionary dictUser = (IDictionary)user.Value;
+
+                    if ((dictUser["group"] + "").Equals(UserGroup.list[0].group))
+                    {
+                        if (UserGroup.list[0].login != dictUser["login"] + "")
+                        {
+                            UserGroup.list.Add(new UserData(dictUser["login"] + "", dictUser["fullname"] + "", dictUser["title"] + "", dictUser["group"] + "", System.Int32.Parse(dictUser["avatarID"] + "")));
+                        }
+                    }
+
+                }
+            }
+        });
+        yield return null;
+    }
+
+    public IEnumerator GetSchedule()
+    {
+        reference.Child("schedule").Child("groups").Child(UserGroup.list[0].group).GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.Log("error");
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                foreach (DataSnapshot day in snapshot.Children)
+                {
+                    IDictionary dictDay = (IDictionary)day.Value;
+                    if(day.Key == "Monday")
+                    {
+                        for (int i = 1; i <= dictDay.Count; i++)
+                        {
+                            Schedule.monday.Add(dictDay["subj" + i] + "");
+                        }
+                    }else if (day.Key == "Tuesday")
+                    {
+                        for (int i = 1; i <= dictDay.Count; i++)
+                        {
+                            Schedule.tuesday.Add(dictDay["subj" + i] + "");
+                        }
+                    }
+                    else if (day.Key == "Wednesday")
+                    {
+                        for (int i = 1; i <= dictDay.Count; i++)
+                        {
+                            Schedule.wednesday.Add(dictDay["subj" + i] + "");
+                        }
+                    }
+                    else if (day.Key == "Thursday")
+                    {
+                        for (int i = 1; i <= dictDay.Count; i++)
+                        {
+                            Schedule.thursday.Add(dictDay["subj" + i] + "");
+                        }
+                    }
+                    else if (day.Key == "Friday")
+                    {
+                        for (int i = 1; i <= dictDay.Count; i++)
+                        {
+                            Schedule.friday.Add(dictDay["subj" + i] + "");
+                        }
+                    }
+
+
+                }
+            }
+        });
+        yield return null;
+    }
 
 
 }

@@ -11,6 +11,11 @@ public class LoginRegister : MonoBehaviour
     public Canvas registerCanvas;
     public Image avatar;
     
+    public void Start()
+    {
+        ElGetter.Init(images);
+    }
+
     public void ToLogin()
     {
         loginCanvas.gameObject.SetActive(true);
@@ -73,10 +78,11 @@ public class LoginRegister : MonoBehaviour
     IEnumerator TryLogin(string login, string password)
     {
         yield return StartCoroutine(ElGetter.dBScript.TryLogin(login, password));
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         if (ElGetter.dBScript.loggedin)
         {
             ElGetter.login.ChangeCamera();
+            StartCoroutine(ElGetter.initializer.InitData());
         }
     }
     
