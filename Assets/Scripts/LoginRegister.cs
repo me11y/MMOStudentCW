@@ -68,11 +68,17 @@ public class LoginRegister : MonoBehaviour
         ToLogin();
     }
 
+
+    bool loggedIn;
     public void Login()
     {
-        string login = loginCanvas.transform.GetChild(0).GetComponent<InputField>().text;
-        string password = loginCanvas.transform.GetChild(1).GetComponent<InputField>().text;
-        StartCoroutine(TryLogin(login, password));
+        if (!loggedIn)
+        {
+            string login = loginCanvas.transform.GetChild(0).GetComponent<InputField>().text;
+            string password = loginCanvas.transform.GetChild(1).GetComponent<InputField>().text;
+            loggedIn = true;
+            StartCoroutine(TryLogin(login, password));
+        }
     }
 
     IEnumerator TryLogin(string login, string password)
@@ -83,6 +89,10 @@ public class LoginRegister : MonoBehaviour
         {
             ElGetter.login.ChangeCamera();
             StartCoroutine(ElGetter.initializer.InitData());
+        }
+        else
+        {
+            loggedIn = false;
         }
     }
     
