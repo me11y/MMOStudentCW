@@ -55,11 +55,11 @@ public class LoginRegister : MonoBehaviour
     public void Register()
     {
         int avatarID = currentAvatar;
-        string login = registerCanvas.transform.GetChild(1).GetChild(0).GetComponent<InputField>().text;
-        string password = registerCanvas.transform.GetChild(1).GetChild(1).GetComponent<InputField>().text;
-        string fullname = registerCanvas.transform.GetChild(1).GetChild(2).GetComponent<InputField>().text;
-        string title = registerCanvas.transform.GetChild(1).GetChild(3).GetComponent<InputField>().text;
-        string group = registerCanvas.transform.GetChild(1).GetChild(4).GetComponent<InputField>().text;
+        string login = registerCanvas.transform.GetChild(0).GetChild(1).GetComponent<InputField>().text;
+        string password = registerCanvas.transform.GetChild(0).GetChild(2).GetComponent<InputField>().text;
+        string fullname = registerCanvas.transform.GetChild(0).GetChild(3).GetComponent<InputField>().text;
+        string title = registerCanvas.transform.GetChild(0).GetChild(4).GetComponent<InputField>().text;
+        string group = registerCanvas.transform.GetChild(0).GetChild(5).GetComponent<InputField>().text;
         if(login == "" || password == "" || fullname == "" || title == "" || group == "")
         {
             return;
